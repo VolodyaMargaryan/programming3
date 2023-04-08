@@ -4,3 +4,5 @@ class Virus {
         this.y = y;
     }
 }
+
+//hyu
