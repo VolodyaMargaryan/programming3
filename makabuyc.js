@@ -1,7 +1,6 @@
-class Makabuyc {
+class Makabuyc extends LivingCreature{
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        super(x,y)
         this.energy = 50;
         this.directions = [];
 

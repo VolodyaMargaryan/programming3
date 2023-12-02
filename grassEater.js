@@ -5,6 +5,7 @@ class GrassEater extends LivingCreature{
         this.directions = [];
 
     }
+
     getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
@@ -20,7 +21,7 @@ class GrassEater extends LivingCreature{
 
     chooseCell(character) {
         this.getNewCoordinates()
-        return  super.chooseCell(character)
+        return super.chooseCell(character)
     }
 
     mul() {
