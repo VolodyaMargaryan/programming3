@@ -1,9 +1,7 @@
 var socket = io()
-
 var side = 30;
 
 function setup() {
-    frameRate(5);
     createCanvas(25 * side, 25 * side);
     background('#acacac');
 }
@@ -14,9 +12,11 @@ function draw() {
 
             if (matrix[y][x] == 1) {
                 fill("green");
-            } else if (matrix[y][x] == 0) {
+            } 
+            else if (matrix[y][x] == 0) {
                 fill("#acacac");
-            } else if (matrix[y][x] == 2) {
+            } 
+            else if (matrix[y][x] == 2) {
                 fill("yellow");
             }
             else if (matrix[y][x] == 3) {
@@ -34,7 +34,6 @@ function draw() {
     for (let i = 0; i < grassArr.length; i++) {
         grassArr[i].mul()
     }
-
     for (let i = 0; i < grassEaterArr.length; i++) {
         grassEaterArr[i].eat()
     }
