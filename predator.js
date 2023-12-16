@@ -1,5 +1,5 @@
 let LivingCreature = require('./LivingCreature')
-
+let Makabuyc = require("./makabuyc")
 module.exports = class Predator extends LivingCreature{
     constructor(x, y) {
         super(x,y)
@@ -27,8 +27,8 @@ module.exports = class Predator extends LivingCreature{
     }
 
     mul() {
-        let emptyCelss = this.chooseCell(0)
-        let newCell = emptyCelss[Math.floor(Math.random() * emptyCelss.length)]
+        let emptyCels = this.chooseCell(0)
+        let newCell = emptyCels[Math.floor(Math.random() * emptyCels.length)]
         if (newCell) {
             let newX = newCell[0]
             let newY = newCell[1]
@@ -41,8 +41,8 @@ module.exports = class Predator extends LivingCreature{
 
     move() {
         this.energy--
-        let emptyCelss = this.chooseCell(0)
-        let newCell = emptyCelss[Math.floor(Math.random() * emptyCelss.length)]
+        let emptyCels = this.chooseCell(0)
+        let newCell = emptyCels[Math.floor(Math.random() * emptyCels.length)]
         if (newCell && this.energy >= 0) {
             let newX = newCell[0]
             let newY = newCell[1]
@@ -59,12 +59,12 @@ module.exports = class Predator extends LivingCreature{
         let emptyCelss = this.chooseCell(2)
         let newCell = emptyCelss[Math.floor(Math.random() * emptyCelss.length)]
         let emptyCels = this.chooseCell(4)
-        let newCel = random(emptyCels)
+        let newCel = emptyCels[Math.floor(Math.random() * emptyCels.length)]
         if (newCell) {
             this.energy++
             let newX = newCell[0]
             let newY = newCell[1]
-            matrix[newY][newX] = matrix[this.y][this.x]///////2
+            matrix[newY][newX] = 2
             matrix[this.y][this.x] = 0
             this.x = newX
             this.y = newY
@@ -83,7 +83,7 @@ module.exports = class Predator extends LivingCreature{
             this.energy++
             let newX = newCel[0]
             let newY = newCel[1]
-            matrix[newY][newX] = matrix[this.y][this.x]///////2
+            matrix[newY][newX] = 2
             matrix[this.y][this.x] = 5
             makabuycArr.push(new Makabuyc(newX,newY))
         }

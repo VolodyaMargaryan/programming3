@@ -6,10 +6,10 @@ function setup() {
     background('#acacac');
 }
 
-function draw() {
+function DrawGame(matrix) {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
-
+            
             if (matrix[y][x] == 1) {
                 fill("green");
             } 
@@ -31,16 +31,9 @@ function draw() {
             rect(x * side, y * side, side, side);
         }
     }
-    for (let i = 0; i < grassArr.length; i++) {
-        grassArr[i].mul()
-    }
-    for (let i = 0; i < grassEaterArr.length; i++) {
-        grassEaterArr[i].eat()
-    }
-    for (let i = 0; i < predatorArr.length; i++) {
-        predatorArr[i].eat()
-    }
-    for (let i = 0; i < makabuycArr.length; i++) {
-        makabuycArr[i].eat()
-    }
 }
+
+setInterval(function(){
+    socket.on("send matrix", DrawGame)
+    console.log("draw");
+}, 500)
