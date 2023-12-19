@@ -3,10 +3,11 @@ let LivingCreature = require('./LivingCreature')
 module.exports = class Makabuyc extends LivingCreature{
     constructor(x, y) {
         super(x,y)
-        this.energy = 50;
+        this.energy = 40;
         this.directions = [];
 
     }
+
     getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
@@ -19,78 +20,77 @@ module.exports = class Makabuyc extends LivingCreature{
             [this.x + 1, this.y + 1]
         ];
     }
+
     chooseCell(character) {
         this.getNewCoordinates()
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
+        return super.chooseCell(character)
     }
+    
     mul() {
-        let emptyCelss = this.chooseCell(0)
-        let newCell = emptyCelss[Math.floor(Math.random() * emptyCelss.length)]
+        let emptyCells = this.chooseCell(0)
+        let newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
         if (newCell) {
             let newX = newCell[0]
             let newY = newCell[1]
-            matrix[newY][newX] = 3
-            let newMak = new Makabuyc (newX, newY)
+            matrix[newY][newX] = 5
+            let newMak = new Makabuyc(newX, newY)
             makabuycArr.push(newMak)
-            this.energy = 10
         }
     }
+    
     move() {
         this.energy--
-        let emptyCelss = this.chooseCell(0)
-        let newCell = emptyCelss[Math.floor(Math.random() * emptyCelss.length)]
+        let emptyCells = this.chooseCell(0)
+        let newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
         if (newCell && this.energy >= 0) {
             let newX = newCell[0]
             let newY = newCell[1]
-            matrix[newY][newX] = matrix[this.y][this.x]///////2
+            matrix[newY][newX] = 5
             matrix[this.y][this.x] = 0
             this.x = newX
             this.y = newY
-        } else {
-            this.die()
+            if(this.energy <= 0){
+                this.die()
+            }
         }
     }
+    
     eat() {
-        let emptyCelss = this.chooseCell(3)
-        let newCell = emptyCelss[Math.floor(Math.random() * emptyCelss.length)]
-        if (newCell) {
+        let emptyCells1 = this.chooseCell(2)
+        let newCell1 = emptyCells1[Math.floor(Math.random() * emptyCells1.length)]
+        let emptyCells2 = this.chooseCell(4)
+        let newCell2 = emptyCells2[Math.floor(Math.random() * emptyCells2.length)]
+        if (newCell1) {
             this.energy++
-            let newX = newCell[0]
-            let newY = newCell[1]
-            matrix[newY][newX] = matrix[this.y][this.x]///////2
+            let newX = newCell1[0]
+            let newY = newCell1[1]
+            for (var i in grassEaterArr) {
+                if (newX == grassEaterArr[i].x && newY == grassEaterArr[i].y) {
+                    grassEaterArr.splice(i, 1);
+                }
+            }
+            matrix[newY][newX] = 5
             matrix[this.y][this.x] = 0
             this.x = newX
             this.y = newY
-            if (this.energy >= 15) {
+            if (this.energy >= 5) {
                 this.mul()
             }
-            for (var i in makabuycArr) {
-                if (newX == makabuycArr[i].x && newY == makabuycArr[i].y) {
-                    makabuycArr.splice(i, 1);
-                    break;
-                }
-            }
-
-        } else {
+        } 
+        else if (newCell2) {
+            this.die()
+        }
+        else {
             this.move()
         }
     }
+
     die() {
         matrix[this.y][this.x] = 0
+
         for (var i in makabuycArr) {
             if (this.x == makabuycArr[i].x && this.y == makabuycArr[i].y) {
                 makabuycArr.splice(i, 1);
-                break;
             }
         }
     }

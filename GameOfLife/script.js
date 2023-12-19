@@ -1,9 +1,8 @@
 var socket = io()
-var side = 30;
+var side = 25;
 
 function setup() {
-    createCanvas(25 * side, 25 * side);
-    background('#acacac');
+    createCanvas(30 * side, 30 * side);
 }
 
 function DrawGame(matrix) {
@@ -13,27 +12,37 @@ function DrawGame(matrix) {
             if (matrix[y][x] == 1) {
                 fill("green");
             } 
-            else if (matrix[y][x] == 0) {
-                fill("#acacac");
-            } 
+       
             else if (matrix[y][x] == 2) {
                 fill("yellow");
             }
             else if (matrix[y][x] == 3) {
-                fill("red")
+                fill("brown")
             }
             else if (matrix[y][x] == 4) {
                 fill("black")
             }
             else if (matrix[y][x] == 5) {
-                fill("orange")
+                fill("gray")
             }
+            else if (matrix[y][x] == 6) {
+                fill("blue")
+            }  
+               else  {
+                fill("#acacac");
+            } 
             rect(x * side, y * side, side, side);
         }
     }
 }
 
-setInterval(function(){
+setInterval(function() {
     socket.on("send matrix", DrawGame)
-    console.log("draw");
-}, 500)
+}, 300)
+
+
+//buttons
+
+function AddGrass() {
+    socket.emit("Add Grass")
+}
