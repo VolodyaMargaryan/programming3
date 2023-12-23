@@ -1,21 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Game Of Life</title>
+    </head>
 
-    </style>
-    <script src="socket.io/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
-    <script src="script.js"></script>
-</head>
+    <body>
+        <div id="title">
+            <h1>GAME OF LIFE</h1>
+        </div>
 
-<body>
-    <h1>Game Of LIfe</h1>
-    <button class="grass" style="width: 100px; height: 100px; background-color: lightgreen;" onclick="AddGrass()">Add Grass</button>
-</body>
+        <table>
+            <tr>
+                <th>Grass</th>
+                <th>GrassEater</th>
+                <th>Predator</th>
+                <th>Virus</th>
+                <th>Makabuyc</th>
+                <th>Vorsord</th>
+            </tr>
+            <tr>
+                <th id="grassCount"></th>
+                <th id="grassEaterCount"></th>
+                <th id="predatorCount"></th>
+                <th id="virusCount"></th>
+                <th id="makabuycCount"></th>
+                <th id="vorsordCount"></th>
+            </tr>
+        </table>
 
-</html>
+        <div id="buttons">
+            <button id="grass" onclick="AddGrass()"><p id="p-grass">Add Grass</p></button>
+            <button id="grassEater" onclick="AddGrassEater()"><p id="p-grassEater">Add GrassEater</p></button>
+            <button id="predator" onclick="AddPredator()"><p id="p-predator">Add Predator</p></button>
+            <button id="killall" onclick="KillAll()"><p id="p-killall">Kill All</p></button>
+            <button id="virus" onclick="AddVirus()"><p id="p-virus">Add Virus</p></button>
+            <button id="makabuyc" onclick="AddMakabuyc()"><p id="p-makabuyc">Add Makabuyc</p></button>
+            <button id="vorsord" onclick="AddVorsord()"><p id="p-vorsord">Add Vorsord</p></button>
+        </div>
+
+        <div id="weathers">
+            <div id="weatherHeading">
+                <h2>Select weather</h2>
+            </div>
+            <div id="weatherButtons">
+                <div id="weatherButtonContainer">
+                    <button onclick="Spring()" id="spring"><p id="p-spring">Spring</p></button>
+                    <button onclick="Summer()" id="summer"><p id="p-summer">Summer</p></button>
+                    <button onclick="Autumn()" id="autumn"><p id="p-autumn">Autumn</p></button>
+                    <button onclick="Winter()" id="winter"><p id="p-winter">Winter</p></button>
+                </div>
+            </div>
+        </div>
+
+        <script src="socket.io/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
+        <script src="script.js"></script>
+        <link rel="stylesheet" href="css/style.css">
+    </body

@@ -69,7 +69,7 @@ function matrixGenerate(matLength, grass, grassEater, predator, virus, makabuyc,
     return matrix
 }
 
-matrix = matrixGenerate(30, 5, 5, 5, 5, 5, 5);
+matrix = matrixGenerate(30, 20, 5, 5, 5, 5, 5);
 
 io.sockets.emit("send matrix", matrix);
 
@@ -93,7 +93,7 @@ let Vorsord = require("./vorsord")
 
 //object creator
 
-function createObject(){
+function createObject(matrix){
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
@@ -146,8 +146,43 @@ function game() {
 
 setInterval(game, 300)
 
-//add button
+//weathers
 
+var weather;
+
+function Winter() {
+    weather = "winter";
+    io.sockets.emit('Winter', weather);
+}
+function Summer() {
+    weather = "summer";
+    io.sockets.emit('Summer', weather);
+}
+function Spring() {
+    weather = "spring";
+    io.sockets.emit('Spring', weather);
+}
+function Autumn() {
+    weather = "autumn";
+    io.sockets.emit('Autumn', weather);
+}
+
+//events
+
+function KillAll() {
+    grassArr = [];
+    grassEaterArr = [];
+    predatorArr = [];
+    virusArr = [];
+    makabuycArr = [];
+    vorsordArr = [];
+    for (var y = 0; y < matrix.length; y++) {
+        for (var x = 0; x < matrix[y].length; x++) {
+            matrix[y][x] = 0;
+        }
+    }
+    io.sockets.emit("send matrix", matrix)
+}
 function AddGrass() {
     for(let i = 0; i < 5; i++) {
         let x = Math.floor(Math.random() * matrix.length)
@@ -158,13 +193,82 @@ function AddGrass() {
             grassArr.push(grass)
         }
     }
-
-    console.log("Grass");
+    io.sockets.emit("send matrix", matrix);
+}
+function AddGrassEater() {
+    for(let i = 0; i < 5; i++) {
+        let x = Math.floor(Math.random() * matrix.length)
+        let y = Math.floor(Math.random() * matrix.length)
+        if(matrix[y][x] == 0) {
+            matrix[y][x] = 2
+            let grassEater = new GrassEater(x, y)
+            grassEaterArr.push(grassEater)
+        }
+    }
+    io.sockets.emit("send matrix", matrix);
+}
+function AddPredator() {
+    for(let i = 0; i < 5; i++) {
+        let x = Math.floor(Math.random() * matrix.length)
+        let y = Math.floor(Math.random() * matrix.length)
+        if(matrix[y][x] == 0) {
+            matrix[y][x] = 3
+            let predator = new Predator(x, y)
+            predatorArr.push(predator)
+        }
+    }
+    io.sockets.emit("send matrix", matrix);
+}
+function AddVirus() {
+    for(let i = 0; i < 5; i++) {
+        let x = Math.floor(Math.random() * matrix.length)
+        let y = Math.floor(Math.random() * matrix.length)
+        if(matrix[y][x] == 0) {
+            matrix[y][x] = 4
+            let virus = new Virus(x, y)
+            virusArr.push(virus)
+        }
+    }
+    io.sockets.emit("send matrix", matrix);
+}
+function AddMakabuyc() {
+    for(let i = 0; i < 5; i++) {
+        let x = Math.floor(Math.random() * matrix.length)
+        let y = Math.floor(Math.random() * matrix.length)
+        if(matrix[y][x] == 0) {
+            matrix[y][x] = 5
+            let makabuyc = new Makabuyc(x, y)
+            makabuycArr.push(makabuyc)
+        }
+    }
+    io.sockets.emit("send matrix", matrix);
+}
+function AddVorsord() {
+    for(let i = 0; i < 5; i++) {
+        let x = Math.floor(Math.random() * matrix.length)
+        let y = Math.floor(Math.random() * matrix.length)
+        if(matrix[y][x] == 0) {
+            matrix[y][x] = 6
+            let vorsord = new Vorsord(x, y)
+            vorsordArr.push(vorsord)
+        }
+    }
+    io.sockets.emit("send matrix", matrix);
 }
 
 io.on("connection", function(socket){
-    createObject()
+    createObject(matrix)
+    socket.on("spring", Spring);
+    socket.on("summer", Summer);
+    socket.on("autumn", Autumn);
+    socket.on("winter", Winter);
+    socket.on("KillAll", KillAll)
     socket.on("Add Grass", AddGrass)
+    socket.on("Add GrassEater", AddGrassEater)
+    socket.on("Add Predator", AddPredator)
+    socket.on("Add Virus", AddVirus)
+    socket.on("Add Makabuyc", AddMakabuyc)
+    socket.on("Add Vorsord", AddVorsord)
 })
 
 //statistics
@@ -180,17 +284,19 @@ setInterval(function() {
     statistics.virus = virusArr.length
     statistics.makabuyc = makabuycArr.length
     statistics.vorsord = vorsordArr.length
+    counts = {
+        grass:grassArr.length,
+        grassEater:grassEaterArr.length,
+        predator:predatorArr.length,
+        virus:virusArr.length,
+        makabuyc:makabuycArr.length,
+        vorsord:vorsordArr.length
+    }
     fs.writeFile("statistics.json", JSON.stringify(statistics), function(err){
 
     })
+    io.sockets.emit("send datas", counts)
 },1000)
-
-
-
-
-
-
-
 
 
 
